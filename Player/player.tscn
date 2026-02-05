@@ -1001,6 +1001,7 @@ animations = [{
 }]
 
 [node name="Player" type="CharacterBody2D" unique_id=2117678884]
+collision_layer = 63
 script = ExtResource("1_k53q1")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2037612505]
@@ -1010,5 +1011,5 @@ shape = SubResource("CircleShape2D_4ntmi")
 position = Vector2(-1, -16)
 scale = Vector2(1.1718751, 1.0546875)
 sprite_frames = SubResource("SpriteFrames_ac8n6")
-animation = &"attack_down2"
+animation = &"idle_down"
 autoplay = "idle_down"

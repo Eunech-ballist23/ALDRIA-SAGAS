@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="aldria-Sagas"
-run/main_scene="uid://cvjw7kibn8edk"
+run/main_scene="uid://bmq52f71g4u6n"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
 
