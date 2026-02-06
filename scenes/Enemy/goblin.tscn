@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://ftfnmpkkqibu" path="res://assets/Orc mobs/PNG/Orc1/Without_shadow/orc1_attack_without_shadow.png" id="1_u6mjv"]
 [ext_resource type="Texture2D" uid="uid://bx6vcvfnulpsg" path="res://assets/Orc mobs/PNG/Orc1/Without_shadow/orc1_death_without_shadow.png" id="2_vu5tg"]
 [ext_resource type="Texture2D" uid="uid://dm6p65ytyj34a" path="res://assets/Orc mobs/PNG/Orc1/Without_shadow/orc1_run_without_shadow.png" id="4_macxp"]
+[ext_resource type="Script" uid="uid://bu1d5uhby3y8u" path="res://scripts/enemy/goblin_damage.gd" id="6_lqati"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8m2n1"]
 atlas = ExtResource("1_u6mjv")
@@ -894,21 +895,49 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_p8f7c"]
+radius = 6.0
+height = 24.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_whqo8"]
+radius = 68.007355
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_l6iwn"]
+a = Vector2(3, -5)
+b = Vector2(-2, 1)
 
 [node name="Goblin" type="CharacterBody2D" unique_id=1614776890]
+z_index = 2
+collision_layer = 4
+collision_mask = 3
 script = ExtResource("1_g1p1y")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=130574391]
+position = Vector2(0.5000003, 0.4999997)
+scale = Vector2(0.828125, 0.828125)
 sprite_frames = SubResource("SpriteFrames_p8f7c")
 animation = &"run_down"
-autoplay = "idle_down"
-frame_progress = 0.3327955
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=43778032]
+position = Vector2(0, -3)
 shape = SubResource("CapsuleShape2D_p8f7c")
 
-[node name="Area2D" type="Area2D" parent="." unique_id=1577354485]
-collision_layer = 64
-collision_mask = 64
+[node name="detection_area" type="Area2D" parent="." unique_id=1701144507 groups=["enemies"]]
+collision_layer = 0
+collision_mask = 2
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=686835151]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="detection_area" unique_id=175941094]
+light_mask = 0
+shape = SubResource("CircleShape2D_whqo8")
+
+[node name="goblin_damage" type="Area2D" parent="." unique_id=458395758]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("6_lqati")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="goblin_damage" unique_id=511680593]
+z_index = 1
+position = Vector2(-12, 7)
+shape = SubResource("SegmentShape2D_l6iwn")
+
+[connection signal="body_entered" from="detection_area" to="." method="_on_detection_area_body_entered"]
+[connection signal="body_exited" from="detection_area" to="." method="_on_detection_area_body_exited"]

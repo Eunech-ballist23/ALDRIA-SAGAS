@@ -1001,7 +1001,9 @@ animations = [{
 }]
 
 [node name="Player" type="CharacterBody2D" unique_id=2117678884]
-collision_layer = 63
+z_index = 1
+collision_layer = 2
+collision_mask = 5
 script = ExtResource("1_k53q1")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2037612505]
@@ -1013,3 +1015,13 @@ scale = Vector2(1.1718751, 1.0546875)
 sprite_frames = SubResource("SpriteFrames_ac8n6")
 animation = &"idle_down"
 autoplay = "idle_down"
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1723390807]
+position = Vector2(-2, -10)
+zoom = Vector2(2, 2)
+limit_left = -400
+limit_top = -100
+limit_right = 900
+limit_bottom = 920
+limit_smoothed = true
+position_smoothing_enabled = true

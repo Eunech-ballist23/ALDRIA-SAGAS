@@ -1,7 +1,11 @@
 extends CharacterBody2D
+class_name Player
 
 @export var speed = 150
 @onready var sprite = $AnimatedSprite2D
+
+
+
 
 var last_direction = "down"
 var is_attacking = false
@@ -9,6 +13,8 @@ var is_attacking = false
 func _ready():
 	# This connects the sprite to the script so we know when the attack ends
 	sprite.animation_finished.connect(_on_animation_finished)
+	
+	
 
 func _physics_process(_delta):
 	# 1. Stop everything if we are currently attacking
