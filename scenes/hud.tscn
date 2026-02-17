@@ -1,0 +1,74 @@
+[gd_scene format=3 uid="uid://davoehkntqqo5"]
+
+[ext_resource type="Texture2D" uid="uid://cjqksn2e1871i" path="res://assets/HUD Designs/empty_health.PNG" id="1_6fi6k"]
+[ext_resource type="Texture2D" uid="uid://cul102v265e4c" path="res://assets/HUD Designs/Exotic Swords.png" id="2_5ysmq"]
+[ext_resource type="Texture2D" uid="uid://clpf8vdn0hfw7" path="res://assets/HUD Designs/reduce_health1.PNG" id="2_uo2fv"]
+[ext_resource type="Texture2D" uid="uid://dch5fc66s070g" path="res://assets/HUD Designs/full_health.PNG" id="3_047uy"]
+
+[node name="HUD" type="CanvasLayer" unique_id=263629411]
+
+[node name="MainUI" type="Control" parent="." unique_id=1680754986]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Topleft" type="MarginContainer" parent="MainUI" unique_id=306027696]
+layout_mode = 1
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainUI/Topleft" unique_id=845468693]
+layout_mode = 2
+
+[node name="HeartConatiner" type="HBoxContainer" parent="MainUI/Topleft/VBoxContainer" unique_id=1660288375]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MainUI/Topleft/VBoxContainer/HeartConatiner" unique_id=1264093434]
+layout_mode = 2
+text = "Max Health"
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="MainUI/Topleft/VBoxContainer/HeartConatiner" unique_id=72788156]
+layout_mode = 2
+texture_under = ExtResource("1_6fi6k")
+texture_over = ExtResource("2_uo2fv")
+texture_progress = ExtResource("3_047uy")
+
+[node name="AttackContainer" type="HBoxContainer" parent="MainUI/Topleft/VBoxContainer" unique_id=1753720052]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="MainUI/Topleft/VBoxContainer/AttackContainer" unique_id=1573080541]
+layout_mode = 2
+text = "ATK damage"
+
+[node name="TextureRect" type="TextureRect" parent="MainUI/Topleft/VBoxContainer/AttackContainer" unique_id=806835596]
+texture_filter = 1
+layout_mode = 2
+texture = ExtResource("2_5ysmq")
+
+[node name="BottomCenter" type="MarginContainer" parent="MainUI" unique_id=1939042054]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -40.0
+offset_right = 20.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="InventorySlot" type="PanelContainer" parent="MainUI/BottomCenter" unique_id=1541651193]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="ItemIcon" type="TextureRect" parent="MainUI/BottomCenter/InventorySlot" unique_id=1201025837]
+layout_mode = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ItemCount" type="Label" parent="MainUI/BottomCenter/InventorySlot" unique_id=871763362]
+layout_mode = 2

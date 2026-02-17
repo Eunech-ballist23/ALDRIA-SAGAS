@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://dhcxoonq88kc6"]
+
+[ext_resource type="Script" uid="uid://bjm4wsrq8vxhv" path="res://scripts/room1_entrance.gd" id="1_6uvpm"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mhqcf"]
+size = Vector2(8, 24)
+
+[node name="Room1_entrance" type="Area2D" unique_id=968649093]
+script = ExtResource("1_6uvpm")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=470968537]
+z_index = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1793874433]
+shape = SubResource("RectangleShape2D_mhqcf")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

@@ -87,9 +87,8 @@ anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -629.0
-offset_top = 53.0
-offset_right = 629.5
-offset_bottom = 293.0
+offset_right = 629.0
+offset_bottom = 238.0
 grow_horizontal = 2
 
 [node name="Label" type="Label" parent="MainMenu/HBoxContainer" unique_id=1988578045]
