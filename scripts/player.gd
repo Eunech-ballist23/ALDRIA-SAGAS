@@ -3,9 +3,10 @@ class_name Player
 
 @export var max_health: int = 3
 var current_health: int = max_health
-@export var speed = 150
+@export var speed = 80
 
 @onready var sprite = $AnimatedSprite2D
+@onready var sword_hitbox = $player_hitbox
 
 var last_direction = "down"
 var is_attacking = false
@@ -54,14 +55,15 @@ func attack():
 	is_attacking = true
 	velocity = Vector2.ZERO 
 	sprite.play("attack_" + last_direction)
+	
+	# Turn on the hitbox!
+	sword_hitbox.monitoring = true
 
 func _on_animation_finished():
 	if sprite.animation.begins_with("attack"):
 		is_attacking = false
-	
-	# Keep the player on the last frame of death
-	if sprite.animation.begins_with("die"):
-		sprite.stop() 
+		# Turn off the hitbox!
+		sword_hitbox.monitoring = false
 
 func take_damage(attacker_pos: Vector2):
 	if is_hurting or is_dead: return 

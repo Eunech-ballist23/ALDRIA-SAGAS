@@ -554,10 +554,11 @@ radius = 27.663153
 scale = Vector2(2, 2)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=135723094]
+position = Vector2(0, 2.3841858e-07)
+scale = Vector2(0.88750005, 0.8875)
 sprite_frames = SubResource("SpriteFrames_brhbx")
-animation = &"normal_attack"
-autoplay = "idle"
-frame_progress = 0.8508565
+animation = &"laser_attack"
+frame_progress = 0.4155252
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=538681035]
 shape = SubResource("CircleShape2D_767jy")

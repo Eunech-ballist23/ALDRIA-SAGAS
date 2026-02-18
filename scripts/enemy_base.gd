@@ -26,6 +26,8 @@ var is_attacking: bool = false
 var player: Node2D = null
 var knockback_velocity: Vector2 = Vector2.ZERO
 
+var is_hurting: bool = false
+
 # Wander State Variables
 var is_wandering: bool = false
 var wander_direction: Vector2 = Vector2.ZERO
@@ -40,6 +42,13 @@ func _ready():
 # --- Core Loop ---
 
 func _physics_process(delta: float):
+	
+	# 2. ADD THIS CHECK
+	# If we are hurting, don't move or change states
+	if is_hurting:
+		move_and_slide() # Allow the knockback to slide us, but don't run logic
+		return
+	
 	# 1. Knockback Logic (High Priority)
 	if knockback_velocity.length() > 10:
 		velocity = knockback_velocity
@@ -127,10 +136,38 @@ func apply_knockback(from_position: Vector2):
 	knockback_velocity = bounce_dir * knockback_strength
 	is_attacking = false 
 
-func take_damage(amount: int):
+func take_damage(amount: int, attacker_pos: Vector2 = Vector2.ZERO):
+	if is_hurting: return # Prevent stun-lock if hit twice instantly
+	
 	health -= amount
+	
+	# 3. PLAY THE HURT ANIMATION
+	is_hurting = true
+	
+	# Calculate direction from attacker to slime to know which side was hit
+	var dir = attacker_pos.direction_to(global_position)
+	
+	# Play the correct hurt animation based on direction
+	if abs(dir.x) > abs(dir.y):
+		sprite.play("hurt_right" if dir.x > 0 else "hurt_left")
+	else:
+		sprite.play("hurt_down" if dir.y > 0 else "hurt_up")
+	
+	# If we received a position, apply knockback
+	if attacker_pos != Vector2.ZERO:
+		apply_knockback(attacker_pos)
+
 	if health <= 0:
+		# Add a small delay so we see the hurt frame before it vanishes
+		# Or play a "die" animation if you have one
+		await get_tree().create_timer(0.2).timeout
 		queue_free()
+	else:
+		# 4. RECOVER FROM HURT
+		# Wait for the animation to finish (approx 0.4s)
+		await get_tree().create_timer(0.4).timeout
+		is_hurting = false
+		pick_new_state() # Go back to wandering/chasing
 
 # --- Animation Handling ---
 

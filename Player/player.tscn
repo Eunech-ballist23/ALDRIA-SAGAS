@@ -25,9 +25,7 @@
 [ext_resource type="Texture2D" uid="uid://dgx3kmaxctp4q" path="res://assets/FREE_Adventurer 2D Pixel Art/FREE_Adventurer 2D Pixel Art/Sprites/HURT/hurt_left.png" id="15_755ss"]
 [ext_resource type="Texture2D" uid="uid://beruur0aesj5f" path="res://assets/FREE_Adventurer 2D Pixel Art/FREE_Adventurer 2D Pixel Art/Sprites/HURT/hurt_right.png" id="16_bbimk"]
 [ext_resource type="Texture2D" uid="uid://d4siehr2k4yt" path="res://assets/FREE_Adventurer 2D Pixel Art/FREE_Adventurer 2D Pixel Art/Sprites/HURT/hurt_up.png" id="17_m0h3t"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_4ntmi"]
-radius = 8.5440035
+[ext_resource type="Script" uid="uid://cju1ij4tjltmk" path="res://scripts/player_hitbox.gd" id="26_8viyr"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ac8n6"]
 atlas = ExtResource("2_p5o4e")
@@ -1356,8 +1354,11 @@ animations = [{
 "speed": 10.0
 }]
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_4ntmi"]
+radius = 8.5440035
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_qemgg"]
-radius = 17.464249
+radius = 20.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8viyr"]
 radius = 20.024984
@@ -1368,19 +1369,19 @@ collision_layer = 2
 collision_mask = 5
 script = ExtResource("1_k53q1")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2037612505]
-shape = SubResource("CircleShape2D_4ntmi")
-
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=725300567]
 position = Vector2(-1, -16)
 scale = Vector2(1.1718751, 1.0546875)
 sprite_frames = SubResource("SpriteFrames_ac8n6")
-animation = &"die_up"
+animation = &"idle_down"
 autoplay = "idle_down"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2037612505]
+shape = SubResource("CircleShape2D_4ntmi")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1723390807]
 position = Vector2(-2, -10)
-zoom = Vector2(2, 2)
+zoom = Vector2(3.5, 3.5)
 limit_left = -400
 limit_top = -71
 limit_right = 900
@@ -1390,12 +1391,15 @@ position_smoothing_enabled = true
 editor_draw_limits = true
 
 [node name="player_hurtbox" type="Area2D" parent="." unique_id=160832079]
+collision_layer = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="player_hurtbox" unique_id=651160978]
 position = Vector2(-1, -14)
 shape = SubResource("CircleShape2D_qemgg")
 
 [node name="player_hitbox" type="Area2D" parent="." unique_id=1257135789]
+monitoring = false
+script = ExtResource("26_8viyr")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="player_hitbox" unique_id=537612605]
 position = Vector2(-1, -14)

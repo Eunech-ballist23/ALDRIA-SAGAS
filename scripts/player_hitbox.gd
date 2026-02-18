@@ -7,8 +7,10 @@ func _ready():
 	area_entered.connect(_on_area_entered)
 
 func _on_area_entered(area: Area2D):
+	print("I hit something: ", area.name)
 	# Check if the area we hit belongs to an enemy's hurtbox
 	if area.name == "enemy_hurtbox":
+		print("I HIT THE SLIME!")
 		var enemy = area.get_parent()
 		if enemy.has_method("take_damage"):
 			# Send the player's position to the enemy for direction calculation

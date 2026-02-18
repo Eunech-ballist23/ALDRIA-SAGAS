@@ -1449,7 +1449,7 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_klxi6"]
-radius = 7.0
+radius = 9.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_3tc40"]
 radius = 79.05694
@@ -1457,36 +1457,27 @@ radius = 79.05694
 [sub_resource type="CircleShape2D" id="CircleShape2D_fd6lc"]
 radius = 8.0
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_231f7"]
+radius = 22.36068
+
 [node name="Slime" type="CharacterBody2D" unique_id=1735196882]
 z_index = 2
 collision_layer = 4
 collision_mask = 3
 script = ExtResource("1_pjw23")
-health = null
-speed = null
-damage = null
-knockback_strength = null
-attack_range = null
-attack_cancel_buffer = null
-wander_speed = null
-wander_time_min = null
-wander_time_max = null
-idle_time_min = null
-idle_time_max = null
-stuck_threshold = null
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1682472739]
+position = Vector2(-1, -1)
 sprite_frames = SubResource("SpriteFrames_aq06o")
-animation = &"run_up"
+animation = &"hurt_right"
 autoplay = "idle_down"
-frame = 5
-frame_progress = 0.89655733
+frame_progress = 0.9252645
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=392007013]
-position = Vector2(1, 0)
 shape = SubResource("CircleShape2D_klxi6")
 
 [node name="detection_area" type="Area2D" parent="." unique_id=447147375 groups=["enemies"]]
+collision_layer = 0
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="detection_area" unique_id=1493956331]
@@ -1499,6 +1490,12 @@ collision_mask = 2
 [node name="CollisionShape2D" type="CollisionShape2D" parent="slime_damage" unique_id=975885565]
 z_index = 1
 shape = SubResource("CircleShape2D_fd6lc")
+
+[node name="enemy_hurtbox" type="Area2D" parent="." unique_id=286958562]
+position = Vector2(0, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="enemy_hurtbox" unique_id=549832538]
+shape = SubResource("CircleShape2D_231f7")
 
 [connection signal="body_entered" from="detection_area" to="." method="_on_detection_area_body_entered"]
 [connection signal="body_exited" from="detection_area" to="." method="_on_detection_area_body_exited"]

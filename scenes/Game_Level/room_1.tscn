@@ -2,6 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://4uesjrk3ughb" path="res://assets/pixel_16_woods v2 free/pixel_16_woods v2 free/free_pixel_16_woods.png" id="1_0tsjr"]
 [ext_resource type="PackedScene" uid="uid://gt0fp3usi4ct" path="res://Player/player.tscn" id="2_8v41e"]
+[ext_resource type="PackedScene" uid="uid://hcfj55k5wwmq" path="res://scenes/Enemy/golem_boss.tscn" id="3_srn1f"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_vu5en"]
 texture = ExtResource("1_0tsjr")
@@ -631,3 +632,6 @@ tile_set = SubResource("TileSet_0akh5")
 
 [node name="Player" parent="." unique_id=2117678884 instance=ExtResource("2_8v41e")]
 position = Vector2(147, 213)
+
+[node name="GolemBoss" parent="." unique_id=327508688 instance=ExtResource("3_srn1f")]
+position = Vector2(656, 416)
