@@ -1,56 +1,52 @@
 extends CharacterBody2D
 class_name Player
 
+<<<<<<< HEAD
 @export var max_health: int = 3
 var current_health: int = max_health
 @export var speed = 80
 
 @onready var sprite = $AnimatedSprite2D
 @onready var sword_hitbox = $player_hitbox
+=======
+@export var health = 20
+@export var speed = 90
+@export var knockback_strength = 250.0
 
-var last_direction = "down"
-var is_attacking = false
+@onready var sprite = $AnimatedSprite2D
+@onready var hitbox_shape = $player_hitbox/CollisionShape2D 
+>>>>>>> 99c0166312cc05e788bdc8bd02363b2229a5ace2
+
+var is_dead = false
 var is_hurting = false
-var is_dead = false 
+var is_attacking = false
+var last_direction = "down"
+var knockback_velocity: Vector2 = Vector2.ZERO
 
-func _ready():
-	sprite.animation_finished.connect(_on_animation_finished)
-
-func _physics_process(_delta):
-	# If dead, stop all inputs and movement
-	if is_dead:
-		return
-		
-	if is_attacking or is_hurting:
-		return
-
-	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
-		attack()
-		return
-
-	var direction = Vector2.ZERO
-	if Input.is_action_pressed("right"):
-		direction.x += 1
-		last_direction = "right"
-	elif Input.is_action_pressed("left"):
-		direction.x -= 1
-		last_direction = "left"
-		
-	if Input.is_action_pressed("down"):
-		direction.y += 1
-		last_direction = "down"
-	elif Input.is_action_pressed("up"):
-		direction.y -= 1
-		last_direction = "up"
-
-	velocity = direction.normalized() * speed
-	move_and_slide()
+func _physics_process(delta):
+	if is_dead: return # Blocks all input and movement
 	
+	if knockback_velocity.length() > 10:
+		velocity = knockback_velocity
+		knockback_velocity = knockback_velocity.move_toward(Vector2.ZERO, 1000 * delta)
+		move_and_slide()
+		return
+
+	if is_attacking or is_hurting:
+		velocity = Vector2.ZERO
+		move_and_slide()
+		return
+
+	var direction = Input.get_vector("left", "right", "up", "down")
 	if direction != Vector2.ZERO:
+		last_direction = get_direction_name(direction)
+		velocity = direction * speed
 		sprite.play("run_" + last_direction)
 	else:
+		velocity = Vector2.ZERO
 		sprite.play("idle_" + last_direction)
 
+<<<<<<< HEAD
 func attack():
 	is_attacking = true
 	velocity = Vector2.ZERO 
@@ -64,49 +60,54 @@ func _on_animation_finished():
 		is_attacking = false
 		# Turn off the hitbox!
 		sword_hitbox.monitoring = false
+=======
+	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+		start_attack()
 
-func take_damage(attacker_pos: Vector2):
-	if is_hurting or is_dead: return 
-	
-	current_health -= 1
-	is_attacking = false
-	velocity = Vector2.ZERO
-	
-	var dir = attacker_pos.direction_to(global_position)
-	
-	if current_health <= 0:
-		die(dir)
-		return
+	move_and_slide()
+>>>>>>> 99c0166312cc05e788bdc8bd02363b2229a5ace2
 
-	# Normal Hurt Logic
-	is_hurting = true
+func get_direction_name(dir: Vector2) -> String:
 	if abs(dir.x) > abs(dir.y):
-		sprite.play("hurt_right" if dir.x > 0 else "hurt_left")
-	else:
-		sprite.play("hurt_down" if dir.y > 0 else "hurt_up") 
-	
-	await get_tree().create_timer(0.5).timeout 
-	is_hurting = false 
+		return "right" if dir.x > 0 else "left"
+	return "down" if dir.y > 0 else "up"
 
-func die(dir: Vector2):
-	# Prevent multiple calls to die
+func start_attack():
+	if is_attacking or is_hurting: return
+	is_attacking = true
+	sprite.play("attack_" + last_direction)
+	if hitbox_shape:
+		hitbox_shape.set_deferred("disabled", false)
+
+func take_damage(amount: int, attacker_pos: Vector2):
 	if is_dead: return
 	
-	is_dead = true
-	velocity = Vector2.ZERO
+	health -= amount
+	is_hurting = true
+	is_attacking = false 
 	
-	# Plays die animation based on hit direction
-	if abs(dir.x) > abs(dir.y):
-		sprite.play("die_right" if dir.x > 0 else "die_left")
-	else:
-		sprite.play("die_down" if dir.y > 0 else "die_up")
+	if hitbox_shape: 
+		hitbox_shape.set_deferred("disabled", true)
 	
-	# Start the restart timer
-	restart_game()
+	var bounce_dir = attacker_pos.direction_to(global_position)
+	knockback_velocity = bounce_dir * knockback_strength
+	
+	var dir = get_direction_name(bounce_dir)
 
-func restart_game():
-	# Wait for 2 seconds while the death animation/pose is visible
-	await get_tree().create_timer(2.0).timeout
-	
-	# This resets the scene, variables, and positions
-	get_tree().reload_current_scene()
+	if health <= 0:
+		is_dead = true
+		sprite.play("die_" + dir)
+	else:
+		sprite.play("hurt_" + dir)
+
+func _on_animated_sprite_2d_animation_finished():
+	var anim = sprite.animation
+	if anim.begins_with("attack"):
+		is_attacking = false
+		if hitbox_shape: 
+			hitbox_shape.set_deferred("disabled", true)
+	elif anim.begins_with("hurt"):
+		is_hurting = false
+	elif anim.begins_with("die"):
+		# REVISED: No scene reload. Processing is stopped to keep the body in place.
+		set_physics_process(false)

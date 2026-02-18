@@ -1,12 +1,5 @@
 extends Area2D
-
-
-func _on_body_entered(body: Node2D) -> void:
-	if body.name == "Player":
-		# 1. Make the SLIME bounce away from the player
-		# get_parent() gets the root Slime node that has the apply_knockback function
-		get_parent().apply_knockback(body.global_position)
-		
-		# 2. Make the PLAYER bounce away from the slime (optional)
-	if body.has_method("apply_knockback"):
-		body.apply_knockback(global_position)
+func _on_area_entered(area: Area2D):
+	print("DEBUG: Enemy weapon hit: ", area.name)
+	if area.has_method("take_damage"):
+		area.take_damage(1, global_position)
