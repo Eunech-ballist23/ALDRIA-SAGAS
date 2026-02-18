@@ -1362,7 +1362,7 @@ animations = [{
 radius = 17.464249
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_8viyr"]
-radius = 22.0
+radius = 20.024984
 
 [node name="Player" type="CharacterBody2D" unique_id=2117678884 groups=["player"]]
 z_index = 1
@@ -1377,7 +1377,7 @@ shape = SubResource("CircleShape2D_4ntmi")
 position = Vector2(-1, -16)
 scale = Vector2(1.1718751, 1.0546875)
 sprite_frames = SubResource("SpriteFrames_ac8n6")
-animation = &"attack_down2"
+animation = &"die_up"
 autoplay = "idle_down"
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1723390807]
@@ -1408,7 +1408,7 @@ script = ExtResource("26_8viyr")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="player_hitbox" unique_id=537612605]
 position = Vector2(-1, -14)
 shape = SubResource("CircleShape2D_8viyr")
+disabled = true
 debug_color = Color(0.78256077, 0.34962985, 0.6713669, 0.41960785)
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
-[connection signal="area_entered" from="player_hitbox" to="player_hitbox" method="_on_area_entered"]
